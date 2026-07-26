@@ -1,7 +1,7 @@
 //public class User {
     
 //}
-package main.java.com.hiresmart.entity;
+package com.hiresmart.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
