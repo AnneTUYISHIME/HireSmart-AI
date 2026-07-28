@@ -1,7 +1,13 @@
+com\hiresmart\security\CustomUserDetailsService.class
+com\hiresmart\security\JwtService.class
 com\hiresmart\service\AuthService.class
+com\hiresmart\dto\AuthResponse.class
+com\hiresmart\controller\AuthController.class
+com\hiresmart\dto\LoginRequest.class
 com\hiresmart\repository\UserRepository.class
 com\hiresmart\dto\RegisterRequest.class
 com\hiresmart\entity\Role.class
-com\hiresmart\dto\AuthResponse.class
+com\hiresmart\config\SecurityConfig.class
+com\hiresmart\security\JwtAuthFilter.class
 com\hiresmart\entity\User.class
 com\hiresmart\HireSmartApplication.class
