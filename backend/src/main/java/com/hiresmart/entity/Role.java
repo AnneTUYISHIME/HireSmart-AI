@@ -1,8 +1,6 @@
-//public class Role {
-    
-//}
 
-package main.java.com.hiresmart.entity;
+package com.hiresmart.entity;
+
 
 public enum Role {
     ADMIN,

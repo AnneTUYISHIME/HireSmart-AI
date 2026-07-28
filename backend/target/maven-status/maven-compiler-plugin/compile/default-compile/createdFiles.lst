@@ -1,3 +1,7 @@
-main\java\com\hiresmart\entity\User.class
-main\java\com\hiresmart\HireSmartApplication.class
-main\java\com\hiresmart\entity\Role.class
+com\hiresmart\service\AuthService.class
+com\hiresmart\repository\UserRepository.class
+com\hiresmart\dto\RegisterRequest.class
+com\hiresmart\entity\Role.class
+com\hiresmart\dto\AuthResponse.class
+com\hiresmart\entity\User.class
+com\hiresmart\HireSmartApplication.class
