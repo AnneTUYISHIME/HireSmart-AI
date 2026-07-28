@@ -33,7 +33,7 @@ public class JobController {
         return ResponseEntity.ok(jobService.getJobById(id));
     }
 
-    // Only logged-in recruiters can create a job
+    //  recruiters can create a job
     @PostMapping
     public ResponseEntity<JobResponse> createJob(@Valid @RequestBody JobRequest request,
                                                   Authentication authentication) {
