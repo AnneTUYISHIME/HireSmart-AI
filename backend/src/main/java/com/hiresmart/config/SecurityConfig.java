@@ -3,6 +3,7 @@ package com.hiresmart.config;
 import com.hiresmart.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,7 +42,11 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .anyRequest().authenticated() // everything else now requires a valid JWT
+                .requestMatchers(HttpMethod.GET, "/api/jobs/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/jobs/**").hasRole("RECRUITER")
+                .requestMatchers(HttpMethod.PUT, "/api/jobs/**").hasRole("RECRUITER")
+                .requestMatchers(HttpMethod.DELETE, "/api/jobs/**").hasRole("RECRUITER")
+                .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

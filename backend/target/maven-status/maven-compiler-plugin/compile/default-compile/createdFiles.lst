@@ -1,9 +1,15 @@
+com\hiresmart\controller\JobController.class
 com\hiresmart\security\CustomUserDetailsService.class
 com\hiresmart\security\JwtService.class
+com\hiresmart\entity\Job.class
 com\hiresmart\service\AuthService.class
 com\hiresmart\dto\AuthResponse.class
 com\hiresmart\controller\AuthController.class
+com\hiresmart\dto\JobResponse.class
 com\hiresmart\dto\LoginRequest.class
+com\hiresmart\repository\JobRepository.class
+com\hiresmart\service\JobService.class
+com\hiresmart\dto\JobRequest.class
 com\hiresmart\repository\UserRepository.class
 com\hiresmart\dto\RegisterRequest.class
 com\hiresmart\entity\Role.class

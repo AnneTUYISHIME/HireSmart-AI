@@ -1,5 +1,6 @@
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\config\SecurityConfig.java
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\controller\AuthController.java
+C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\controller\JobController.java
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\dto\AuthResponse.java
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\dto\JobRequest.java
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\dto\JobResponse.java
@@ -15,3 +16,4 @@ C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\se
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\security\JwtAuthFilter.java
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\security\JwtService.java
 C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\service\AuthService.java
+C:\Users\user\Documents\Anne\HireSmart AI\backend\src\main\java\com\hiresmart\service\JobService.java
