@@ -1,12 +1,49 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import Jobs from './pages/Jobs';
+import Applications from './pages/Applications';
+
+// Wraps pages that require login - redirects to /login if no token found
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem('token');
+  return token ? children : <Navigate to="/login" />;
+}
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/jobs"
+        element={
+          <ProtectedRoute>
+            <Jobs />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/applications"
+        element={
+          <ProtectedRoute>
+            <Applications />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="/" element={<Navigate to="/login" />} />
     </Routes>
   );
