@@ -3,9 +3,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Jobs from './pages/Jobs';
+import JobDetail from './pages/JobDetail';
+import JobApply from './pages/JobApply';
 import Applications from './pages/Applications';
 
-// Wraps pages that require login - redirects to /login if no token found
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" />;
@@ -31,6 +32,24 @@ function App() {
         element={
           <ProtectedRoute>
             <Jobs />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/jobs/:id"
+        element={
+          <ProtectedRoute>
+            <JobDetail />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/jobs/:id/apply"
+        element={
+          <ProtectedRoute>
+            <JobApply />
           </ProtectedRoute>
         }
       />

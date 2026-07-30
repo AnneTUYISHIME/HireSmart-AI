@@ -13,6 +13,7 @@ function Jobs() {
   const [description, setDescription] = useState('');
   const [requirements, setRequirements] = useState('');
   const [location, setLocation] = useState('');
+  const [applicationDeadline, setApplicationDeadline] = useState('');
 
   const role = localStorage.getItem('role');
 
@@ -45,12 +46,19 @@ function Jobs() {
     e.preventDefault();
     setMessage('');
     try {
-      await api.post('/jobs', { title, description, requirements, location });
+      await api.post('/jobs', {
+        title,
+        description,
+        requirements,
+        location,
+        applicationDeadline,
+      });
       setMessage('Job posted successfully!');
       setTitle('');
       setDescription('');
       setRequirements('');
       setLocation('');
+      setApplicationDeadline('');
       setShowForm(false);
       fetchJobs();
     } catch (err) {
@@ -89,34 +97,52 @@ function Jobs() {
           >
             <h2 className="text-lg font-semibold mb-4">Post a New Job</h2>
 
+            <label className="block text-sm text-gray-600 mb-1">Job Title</label>
             <input
               type="text"
-              placeholder="Job title"
+              placeholder="e.g. Backend Developer Intern"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
               className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
             />
+
+            <label className="block text-sm text-gray-600 mb-1">Description</label>
             <textarea
-              placeholder="Description"
+              placeholder="Describe the role and responsibilities"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
               rows={3}
               className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
             />
+
+            <label className="block text-sm text-gray-600 mb-1">Requirements</label>
             <input
               type="text"
-              placeholder="Requirements (e.g. Java, React)"
+              placeholder="e.g. Java, React, PostgreSQL"
               value={requirements}
               onChange={(e) => setRequirements(e.target.value)}
               className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
             />
+
+            <label className="block text-sm text-gray-600 mb-1">Location</label>
             <input
               type="text"
-              placeholder="Location"
+              placeholder="e.g. Kigali, Rwanda"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
+            />
+
+            <label className="block text-sm text-gray-600 mb-1">
+              Application Deadline
+            </label>
+            <input
+              type="date"
+              value={applicationDeadline}
+              onChange={(e) => setApplicationDeadline(e.target.value)}
               required
               className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
             />
