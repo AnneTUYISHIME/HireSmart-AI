@@ -1,6 +1,10 @@
 package com.hiresmart.dto;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
 
 public class JobRequest {
 
@@ -14,6 +18,10 @@ public class JobRequest {
 
     @NotBlank(message = "Location is required")
     private String location;
+
+    @NotNull(message = "Application deadline is required")
+    @FutureOrPresent(message = "Deadline must be today or in the future")
+    private LocalDate applicationDeadline;
 
     public String getTitle() {
         return title;
@@ -45,5 +53,13 @@ public class JobRequest {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public LocalDate getApplicationDeadline() {
+        return applicationDeadline;
+    }
+
+    public void setApplicationDeadline(LocalDate applicationDeadline) {
+        this.applicationDeadline = applicationDeadline;
     }
 }

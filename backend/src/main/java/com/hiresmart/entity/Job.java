@@ -1,6 +1,7 @@
 package com.hiresmart.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,10 +24,12 @@ public class Job {
     @Column(nullable = false)
     private String location;
 
+    @Column(nullable = false)
+    private LocalDate applicationDeadline;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // Links this job to the recruiter (User) who created it
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruiter_id", nullable = false)
     private User recruiter;
@@ -34,16 +37,16 @@ public class Job {
     public Job() {
     }
 
-    public Job(String title, String description, String requirements, String location, User recruiter) {
+    public Job(String title, String description, String requirements, String location,
+                LocalDate applicationDeadline, User recruiter) {
         this.title = title;
         this.description = description;
         this.requirements = requirements;
         this.location = location;
+        this.applicationDeadline = applicationDeadline;
         this.recruiter = recruiter;
         this.createdAt = LocalDateTime.now();
     }
-
-    // --- Getters and Setters ---
 
     public Long getId() {
         return id;
@@ -83,6 +86,14 @@ public class Job {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public LocalDate getApplicationDeadline() {
+        return applicationDeadline;
+    }
+
+    public void setApplicationDeadline(LocalDate applicationDeadline) {
+        this.applicationDeadline = applicationDeadline;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -9,7 +9,7 @@ public class AuthResponse {
     private String message;
     private String token;
 
-    public AuthResponse() {
+    public AuthResponse(Long id1, String name1, String email1, String name2, String user_registered_successfully) {
     }
 
     public AuthResponse(Long id, String name, String email, String role, String message, String token) {

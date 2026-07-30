@@ -1,4 +1,3 @@
-
 package com.hiresmart.entity;
 
 import jakarta.persistence.*;
@@ -24,8 +23,19 @@ public class Application {
     @Column(nullable = false)
     private ApplicationStatus status;
 
-    // Filled in later by the AI feature (Phase 4) - null until then
     private Double aiScore;
+
+    @Column(nullable = false)
+    private String degree;
+
+    @Column(nullable = false)
+    private Integer yearsOfExperience;
+
+    @Column(columnDefinition = "TEXT")
+    private String coverLetter;
+
+    @Column(nullable = false)
+    private String cvUrl;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime appliedAt;
@@ -33,14 +43,17 @@ public class Application {
     public Application() {
     }
 
-    public Application(User applicant, Job job) {
+    public Application(User applicant, Job job, String degree, Integer yearsOfExperience,
+                        String coverLetter, String cvUrl) {
         this.applicant = applicant;
         this.job = job;
         this.status = ApplicationStatus.PENDING;
+        this.degree = degree;
+        this.yearsOfExperience = yearsOfExperience;
+        this.coverLetter = coverLetter;
+        this.cvUrl = cvUrl;
         this.appliedAt = LocalDateTime.now();
     }
-
-    // --- Getters and Setters ---
 
     public Long getId() {
         return id;
@@ -80,6 +93,38 @@ public class Application {
 
     public void setAiScore(Double aiScore) {
         this.aiScore = aiScore;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public String getCoverLetter() {
+        return coverLetter;
+    }
+
+    public void setCoverLetter(String coverLetter) {
+        this.coverLetter = coverLetter;
+    }
+
+    public String getCvUrl() {
+        return cvUrl;
+    }
+
+    public void setCvUrl(String cvUrl) {
+        this.cvUrl = cvUrl;
     }
 
     public LocalDateTime getAppliedAt() {

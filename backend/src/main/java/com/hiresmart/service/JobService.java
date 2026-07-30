@@ -30,6 +30,7 @@ public class JobService {
                 request.getDescription(),
                 request.getRequirements(),
                 request.getLocation(),
+                request.getApplicationDeadline(),
                 recruiter
         );
 
@@ -62,6 +63,7 @@ public class JobService {
         job.setDescription(request.getDescription());
         job.setRequirements(request.getRequirements());
         job.setLocation(request.getLocation());
+        job.setApplicationDeadline(request.getApplicationDeadline());
 
         Job updated = jobRepository.save(job);
         return toResponse(updated);
@@ -85,6 +87,7 @@ public class JobService {
                 job.getDescription(),
                 job.getRequirements(),
                 job.getLocation(),
+                job.getApplicationDeadline(),
                 job.getCreatedAt(),
                 job.getRecruiter().getName()
         );

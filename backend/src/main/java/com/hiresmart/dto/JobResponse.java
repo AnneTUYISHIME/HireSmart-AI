@@ -1,5 +1,6 @@
 package com.hiresmart.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class JobResponse {
@@ -9,6 +10,7 @@ public class JobResponse {
     private String description;
     private String requirements;
     private String location;
+    private LocalDate applicationDeadline;
     private LocalDateTime createdAt;
     private String recruiterName;
 
@@ -16,12 +18,14 @@ public class JobResponse {
     }
 
     public JobResponse(Long id, String title, String description, String requirements,
-                        String location, LocalDateTime createdAt, String recruiterName) {
+                        String location, LocalDate applicationDeadline,
+                        LocalDateTime createdAt, String recruiterName) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.requirements = requirements;
         this.location = location;
+        this.applicationDeadline = applicationDeadline;
         this.createdAt = createdAt;
         this.recruiterName = recruiterName;
     }
@@ -64,6 +68,14 @@ public class JobResponse {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public LocalDate getApplicationDeadline() {
+        return applicationDeadline;
+    }
+
+    public void setApplicationDeadline(LocalDate applicationDeadline) {
+        this.applicationDeadline = applicationDeadline;
     }
 
     public LocalDateTime getCreatedAt() {

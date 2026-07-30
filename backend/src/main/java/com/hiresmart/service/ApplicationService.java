@@ -27,7 +27,6 @@ public class ApplicationService {
         this.userRepository = userRepository;
     }
 
-    // Applicant applies to a job
     public ApplicationResponse applyToJob(ApplicationRequest request, String applicantEmail) {
         User applicant = userRepository.findByEmail(applicantEmail)
                 .orElseThrow(() -> new IllegalArgumentException("Applicant not found"));
@@ -39,13 +38,19 @@ public class ApplicationService {
             throw new IllegalArgumentException("You have already applied to this job");
         }
 
-        Application application = new Application(applicant, job);
-        Application saved = applicationRepository.save(application);
+        Application application = new Application(
+                applicant,
+                job,
+                request.getDegree(),
+                request.getYearsOfExperience(),
+                request.getCoverLetter(),
+                request.getCvUrl()
+        );
 
+        Application saved = applicationRepository.save(application);
         return toResponse(saved);
     }
 
-    // Applicant views all jobs they've applied to
     public List<ApplicationResponse> getMyApplications(String applicantEmail) {
         User applicant = userRepository.findByEmail(applicantEmail)
                 .orElseThrow(() -> new IllegalArgumentException("Applicant not found"));
@@ -56,7 +61,6 @@ public class ApplicationService {
                 .toList();
     }
 
-    // Recruiter views everyone who applied 
     public List<ApplicationResponse> getApplicationsForJob(Long jobId, String recruiterEmail) {
         Job job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new IllegalArgumentException("Job not found"));
@@ -79,6 +83,10 @@ public class ApplicationService {
                 application.getApplicant().getEmail(),
                 application.getStatus().name(),
                 application.getAiScore(),
+                application.getDegree(),
+                application.getYearsOfExperience(),
+                application.getCoverLetter(),
+                application.getCvUrl(),
                 application.getAppliedAt()
         );
     }
