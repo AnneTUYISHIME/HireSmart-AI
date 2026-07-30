@@ -6,6 +6,7 @@ import Jobs from './pages/Jobs';
 import JobDetail from './pages/JobDetail';
 import JobApply from './pages/JobApply';
 import Applications from './pages/Applications';
+import Profile from './pages/Profile';
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem('token');
@@ -59,6 +60,15 @@ function App() {
         element={
           <ProtectedRoute>
             <Applications />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
           </ProtectedRoute>
         }
       />

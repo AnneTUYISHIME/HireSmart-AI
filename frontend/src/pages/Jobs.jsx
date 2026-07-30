@@ -17,10 +17,20 @@ function Jobs() {
 
   const role = localStorage.getItem('role');
 
-  const fetchJobs = async () => {
+ const name = localStorage.getItem('name');
+
+const fetchJobs = async () => {
     try {
       const response = await api.get('/jobs');
-      setJobs(response.data);
+      const allJobs = response.data;
+
+      // Recruiters only see their own postings; applicants see everyone's
+      const visibleJobs =
+        role === 'RECRUITER'
+          ? allJobs.filter((job) => job.recruiterName === name)
+          : allJobs;
+
+      setJobs(visibleJobs);
     } catch (err) {
       setMessage('Failed to load jobs');
     } finally {
@@ -72,8 +82,9 @@ function Jobs() {
 
       <div className="max-w-3xl mx-auto py-8 px-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Job Listings</h1>
-
+<h1 className="text-2xl font-bold text-gray-800">
+  {role === 'RECRUITER' ? 'Your Job Postings' : 'Job Listings'}
+</h1>
           {role === 'RECRUITER' && (
             <button
               onClick={() => setShowForm(!showForm)}

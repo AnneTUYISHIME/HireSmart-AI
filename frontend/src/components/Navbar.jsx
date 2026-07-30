@@ -25,6 +25,11 @@ function Navbar() {
         <Link to="/applications" className="hover:underline">
           {role === 'RECRUITER' ? 'Applicants' : 'My Applications'}
         </Link>
+       {role !== 'RECRUITER' && (
+  <Link to="/profile" className="hover:underline">
+    My Profile
+  </Link>
+)}
 
         <span className="text-sm opacity-90">
           {name} ({role})
