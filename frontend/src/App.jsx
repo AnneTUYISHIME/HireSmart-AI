@@ -7,6 +7,7 @@ import JobDetail from './pages/JobDetail';
 import JobApply from './pages/JobApply';
 import Applications from './pages/Applications';
 import Profile from './pages/Profile';
+import Settings from './pages/Settings';
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem('token');
@@ -27,6 +28,15 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route
+  path="/settings"
+  element={
+    <ProtectedRoute>
+      <Settings />
+    </ProtectedRoute>
+  }
+/>
 
       <Route
         path="/jobs"
