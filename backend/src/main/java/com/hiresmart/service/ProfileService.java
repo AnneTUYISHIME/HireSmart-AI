@@ -21,17 +21,15 @@ public class ProfileService {
         this.userRepository = userRepository;
     }
 
-    // Returns the user's profile, or an empty one if they haven't created it yet
     public ProfileResponse getMyProfile(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         return profileRepository.findByUser(user)
                 .map(this::toResponse)
-                .orElse(new ProfileResponse(null, null, null, null, null, null, null));
+                .orElse(new ProfileResponse(null, null, null, null, null, null, null, null, null, null, null, null));
     }
 
-    // Creates the profile if it doesn't exist yet, or updates it if it does
     public ProfileResponse saveMyProfile(ProfileRequest request, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -45,6 +43,11 @@ public class ProfileService {
         profile.setSkills(request.getSkills());
         profile.setAchievements(request.getAchievements());
         profile.setCvUrl(request.getCvUrl());
+        profile.setPhone(request.getPhone());
+        profile.setContactEmail(request.getContactEmail());
+        profile.setLinkedinUrl(request.getLinkedinUrl());
+        profile.setGithubUrl(request.getGithubUrl());
+        profile.setPortfolioUrl(request.getPortfolioUrl());
         profile.setUpdatedAt(LocalDateTime.now());
 
         Profile saved = profileRepository.save(profile);
@@ -59,6 +62,11 @@ public class ProfileService {
                 profile.getSkills(),
                 profile.getAchievements(),
                 profile.getCvUrl(),
+                profile.getPhone(),
+                profile.getContactEmail(),
+                profile.getLinkedinUrl(),
+                profile.getGithubUrl(),
+                profile.getPortfolioUrl(),
                 profile.getUpdatedAt()
         );
     }

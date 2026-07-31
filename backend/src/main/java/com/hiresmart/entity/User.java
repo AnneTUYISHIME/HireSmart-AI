@@ -1,6 +1,7 @@
 package com.hiresmart.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -23,19 +24,19 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    // Empty constructor - required by Hibernate/JPA internally
+    private String resetToken;
+
+    private LocalDateTime resetTokenExpiry;
+
     public User() {
     }
 
-    // Full constructor - used when creating a new User in code
     public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
     }
-
-    // --- Getters and Setters ---
 
     public Long getId() {
         return id;
@@ -75,5 +76,21 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    public LocalDateTime getResetTokenExpiry() {
+        return resetTokenExpiry;
+    }
+
+    public void setResetTokenExpiry(LocalDateTime resetTokenExpiry) {
+        this.resetTokenExpiry = resetTokenExpiry;
     }
 }
