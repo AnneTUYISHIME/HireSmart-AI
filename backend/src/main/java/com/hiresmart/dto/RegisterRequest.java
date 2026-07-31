@@ -20,6 +20,8 @@ public class RegisterRequest {
     @NotBlank(message = "Role is required")
     private String role;
 
+    private String adminCode;
+
     public String getName() {
         return name;
     }
@@ -50,5 +52,13 @@ public class RegisterRequest {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getAdminCode() {
+        return adminCode;
+    }
+
+    public void setAdminCode(String adminCode) {
+        this.adminCode = adminCode;
     }
 }

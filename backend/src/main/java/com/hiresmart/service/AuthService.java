@@ -5,6 +5,7 @@ import com.hiresmart.entity.Role;
 import com.hiresmart.entity.User;
 import com.hiresmart.repository.UserRepository;
 import com.hiresmart.security.JwtService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,9 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final EmailService emailService;
+
+    @Value("${app.admin.registration-code}")
+    private String adminRegistrationCode;
 
     public AuthService(UserRepository userRepository,
                         PasswordEncoder passwordEncoder,
@@ -46,6 +50,12 @@ public class AuthService {
             role = Role.valueOf(request.getRole().toUpperCase());
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("Role must be one of: ADMIN, RECRUITER, APPLICANT");
+        }
+
+        if (role == Role.ADMIN) {
+            if (request.getAdminCode() == null || !request.getAdminCode().equals(adminRegistrationCode)) {
+                throw new IllegalArgumentException("Invalid admin registration code");
+            }
         }
 
         User user = new User(

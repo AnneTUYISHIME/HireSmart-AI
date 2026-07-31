@@ -1,3 +1,10 @@
-###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
 
-GET http://localhost:8080/api/jobs
+{
+  "name": "Admin User",
+  "email": "admin@hiresmart.com",
+  "password": "admin123",
+  "role": "ADMIN",
+  "adminCode": "HireSmart2026SecretAdmin"
+}

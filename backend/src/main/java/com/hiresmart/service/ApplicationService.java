@@ -3,7 +3,6 @@ package com.hiresmart.service;
 import com.hiresmart.dto.ApplicationRequest;
 import com.hiresmart.dto.ApplicationResponse;
 import com.hiresmart.entity.Application;
-import com.hiresmart.entity.ApplicationStatus;
 import com.hiresmart.entity.Job;
 import com.hiresmart.entity.User;
 import com.hiresmart.repository.ApplicationRepository;
@@ -76,7 +75,6 @@ public class ApplicationService {
                 .toList();
     }
 
-
     public ApplicationResponse updateStatus(Long applicationId, String newStatus, String recruiterEmail) {
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new IllegalArgumentException("Application not found"));
@@ -85,9 +83,9 @@ public class ApplicationService {
             throw new SecurityException("You can only update applications for jobs you posted");
         }
 
-        ApplicationStatus status;
+        com.hiresmart.entity.ApplicationStatus status;
         try {
-            status = ApplicationStatus.valueOf(newStatus.toUpperCase());
+            status = com.hiresmart.entity.ApplicationStatus.valueOf(newStatus.toUpperCase());
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("Status must be one of: PENDING, REVIEWED, ACCEPTED, REJECTED");
         }
@@ -95,6 +93,19 @@ public class ApplicationService {
         application.setStatus(status);
         Application saved = applicationRepository.save(application);
         return toResponse(saved);
+    }
+
+    public List<ApplicationResponse> getAllApplicationsForAdmin() {
+        return applicationRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public void deleteApplicationAsAdmin(Long id) {
+        Application application = applicationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Application not found"));
+        applicationRepository.delete(application);
     }
 
     private ApplicationResponse toResponse(Application application) {
