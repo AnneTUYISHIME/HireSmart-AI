@@ -3,6 +3,7 @@ package com.hiresmart.service;
 import com.hiresmart.dto.ApplicationRequest;
 import com.hiresmart.dto.ApplicationResponse;
 import com.hiresmart.entity.Application;
+import com.hiresmart.entity.ApplicationStatus;
 import com.hiresmart.entity.Job;
 import com.hiresmart.entity.User;
 import com.hiresmart.repository.ApplicationRepository;
@@ -73,6 +74,27 @@ public class ApplicationService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+
+    public ApplicationResponse updateStatus(Long applicationId, String newStatus, String recruiterEmail) {
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new IllegalArgumentException("Application not found"));
+
+        if (!application.getJob().getRecruiter().getEmail().equals(recruiterEmail)) {
+            throw new SecurityException("You can only update applications for jobs you posted");
+        }
+
+        ApplicationStatus status;
+        try {
+            status = ApplicationStatus.valueOf(newStatus.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Status must be one of: PENDING, REVIEWED, ACCEPTED, REJECTED");
+        }
+
+        application.setStatus(status);
+        Application saved = applicationRepository.save(application);
+        return toResponse(saved);
     }
 
     private ApplicationResponse toResponse(Application application) {

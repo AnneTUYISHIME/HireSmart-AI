@@ -2,6 +2,7 @@ package com.hiresmart.controller;
 
 import com.hiresmart.dto.ApplicationRequest;
 import com.hiresmart.dto.ApplicationResponse;
+import com.hiresmart.dto.UpdateStatusRequest;
 import com.hiresmart.service.ApplicationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,16 @@ public class ApplicationController {
     public ResponseEntity<List<ApplicationResponse>> getApplicationsForJob(@PathVariable Long jobId,
                                                                             Authentication authentication) {
         return ResponseEntity.ok(applicationService.getApplicationsForJob(jobId, authentication.getName()));
+    }
+
+
+
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<ApplicationResponse> updateStatus(@PathVariable Long id,
+                                                              @Valid @RequestBody UpdateStatusRequest request,
+                                                              Authentication authentication) {
+        ApplicationResponse response = applicationService.updateStatus(id, request.getStatus(), authentication.getName());
+        return ResponseEntity.ok(response);
     }
 }
