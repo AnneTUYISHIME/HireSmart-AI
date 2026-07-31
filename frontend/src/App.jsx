@@ -8,6 +8,10 @@ import JobApply from './pages/JobApply';
 import Applications from './pages/Applications';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import AdminDashboard from './pages/AdminDashboard';
+import NotFound from './pages/NotFound';
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem('token');
@@ -19,6 +23,8 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       <Route
         path="/dashboard"
@@ -28,15 +34,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-
-      <Route
-  path="/settings"
-  element={
-    <ProtectedRoute>
-      <Settings />
-    </ProtectedRoute>
-  }
-/>
 
       <Route
         path="/jobs"
@@ -83,7 +80,26 @@ function App() {
         }
       />
 
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

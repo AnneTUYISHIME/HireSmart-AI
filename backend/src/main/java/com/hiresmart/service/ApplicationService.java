@@ -7,6 +7,7 @@ import com.hiresmart.entity.Job;
 import com.hiresmart.entity.User;
 import com.hiresmart.repository.ApplicationRepository;
 import com.hiresmart.repository.JobRepository;
+import com.hiresmart.repository.ProfileRepository;
 import com.hiresmart.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,16 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
 
     public ApplicationService(ApplicationRepository applicationRepository,
                                JobRepository jobRepository,
-                               UserRepository userRepository) {
+                               UserRepository userRepository,
+                               ProfileRepository profileRepository) {
         this.applicationRepository = applicationRepository;
         this.jobRepository = jobRepository;
         this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
     }
 
     public ApplicationResponse applyToJob(ApplicationRequest request, String applicantEmail) {
@@ -47,8 +51,63 @@ public class ApplicationService {
                 request.getCvUrl()
         );
 
+        Double matchScore = calculateMatchScore(job, applicant, request);
+        application.setAiScore(matchScore);
+
         Application saved = applicationRepository.save(application);
         return toResponse(saved);
+    }
+
+    // Compares job requirements against the applicant's profile skills, bio, and cover letter
+    // to produce a percentage match score - no external AI service needed.
+    private Double calculateMatchScore(Job job, User applicant, ApplicationRequest request) {
+        if (job.getRequirements() == null || job.getRequirements().isBlank()) {
+            return null;
+        }
+
+        String[] keywords = job.getRequirements().toLowerCase().split(",");
+
+        StringBuilder combined = new StringBuilder();
+        if (request.getDegree() != null) {
+            combined.append(request.getDegree().toLowerCase()).append(" ");
+        }
+        if (request.getCoverLetter() != null) {
+            combined.append(request.getCoverLetter().toLowerCase()).append(" ");
+        }
+
+        profileRepository.findByUser(applicant).ifPresent(profile -> {
+            if (profile.getSkills() != null) {
+                combined.append(profile.getSkills().toLowerCase()).append(" ");
+            }
+            if (profile.getBio() != null) {
+                combined.append(profile.getBio().toLowerCase()).append(" ");
+            }
+            if (profile.getAchievements() != null) {
+                combined.append(profile.getAchievements().toLowerCase()).append(" ");
+            }
+        });
+
+        String text = combined.toString();
+
+        int matched = 0;
+        int total = 0;
+        for (String keyword : keywords) {
+            String trimmed = keyword.trim();
+            if (trimmed.isEmpty()) {
+                continue;
+            }
+            total++;
+            if (text.contains(trimmed)) {
+                matched++;
+            }
+        }
+
+        if (total == 0) {
+            return null;
+        }
+
+        double score = ((double) matched / total) * 100;
+        return Math.round(score * 10.0) / 10.0;
     }
 
     public List<ApplicationResponse> getMyApplications(String applicantEmail) {

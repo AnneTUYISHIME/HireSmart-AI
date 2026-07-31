@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Briefcase, ChevronDown, Settings, LogOut } from 'lucide-react';
+import { Briefcase, ChevronDown, Settings, LogOut, Shield } from 'lucide-react';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -29,30 +29,40 @@ function Navbar() {
     ? name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
     : '?';
 
+  const homeLink = role === 'ADMIN' ? '/admin' : '/dashboard';
+
   return (
     <nav
       className="px-6 py-3 shadow-lg relative"
       style={{ background: `linear-gradient(to right, var(--accent), var(--accent-dark))` }}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <Link to="/dashboard" className="flex items-center gap-2 text-white">
+        <Link to={homeLink} className="flex items-center gap-2 text-white">
           <div className="bg-white/20 p-1.5 rounded-lg">
-            <Briefcase size={18} />
+            {role === 'ADMIN' ? <Shield size={18} /> : <Briefcase size={18} />}
           </div>
           <span className="text-lg font-bold">HireSmart AI</span>
         </Link>
 
         <div className="flex items-center gap-1 bg-black/10 rounded-full p-1">
-          <Link to="/jobs" className={linkClass('/jobs')}>
-            Jobs
-          </Link>
-          <Link to="/applications" className={linkClass('/applications')}>
-            {role === 'RECRUITER' ? 'Applicants' : 'My Applications'}
-          </Link>
-          {role !== 'RECRUITER' && (
-            <Link to="/profile" className={linkClass('/profile')}>
-              My Profile
+          {role === 'ADMIN' ? (
+            <Link to="/admin" className={linkClass('/admin')}>
+              Admin Dashboard
             </Link>
+          ) : (
+            <>
+              <Link to="/jobs" className={linkClass('/jobs')}>
+                Jobs
+              </Link>
+              <Link to="/applications" className={linkClass('/applications')}>
+                {role === 'RECRUITER' ? 'Applicants' : 'My Applications'}
+              </Link>
+              {role !== 'RECRUITER' && (
+                <Link to="/profile" className={linkClass('/profile')}>
+                  My Profile
+                </Link>
+              )}
+            </>
           )}
         </div>
 

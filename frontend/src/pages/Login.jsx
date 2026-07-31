@@ -20,7 +20,12 @@ function Login() {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('name', response.data.name);
       localStorage.setItem('role', response.data.role);
-      navigate('/dashboard');
+
+      if (response.data.role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError(err.response?.data?.error || 'Invalid email or password');
     } finally {
@@ -30,13 +35,11 @@ function Login() {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-slate-950 flex items-center justify-center px-4">
-      {/* Decorative glowing background shapes */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600 rounded-full opacity-20 blur-3xl"></div>
       <div className="absolute bottom-[-15%] right-[-10%] w-[30rem] h-[30rem] bg-purple-600 rounded-full opacity-20 blur-3xl"></div>
       <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-cyan-500 rounded-full opacity-10 blur-3xl"></div>
 
       <div className="relative w-full max-w-5xl grid lg:grid-cols-2 gap-0 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
-        {/* Left: branding + features */}
         <div className="hidden lg:flex flex-col justify-center px-12 py-16 text-white">
           <div className="flex items-center gap-2 mb-8">
             <div className="bg-blue-600 p-2 rounded-xl">
@@ -91,7 +94,6 @@ function Login() {
           </div>
         </div>
 
-        {/* Right: login form */}
         <div className="bg-white px-8 py-12 sm:px-12 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-8 lg:hidden">
             <div className="bg-blue-600 p-2 rounded-xl text-white">
@@ -127,7 +129,7 @@ function Login() {
               </div>
             </div>
 
-            <div className="mb-6">
+            <div className="mb-2">
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Password
               </label>
@@ -142,6 +144,12 @@ function Login() {
                   placeholder="••••••••"
                 />
               </div>
+            </div>
+
+            <div className="text-right mb-6">
+              <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">
+                Forgot password?
+              </Link>
             </div>
 
             <button
